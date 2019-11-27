@@ -10,7 +10,7 @@ A free and open source [AnyOrigin](https://web.archive.org/web/20180807170914/ht
 To `fetch` data from http://mercadobitcoin.com.br:
 
 ```js
-fetch(`https://cors42.000webhostapp.com/?${encodeURIComponent('https://www.mercadobitcoin.com.br/api/ticker/')}`)
+fetch(`https://cors42.000webhostapp.com/?https://www.mercadobitcoin.com.br/api/ticker/`)
   .then(response => {
     if (response.ok) return response.json()
     throw new Error('Network response was not ok.')
@@ -21,7 +21,7 @@ fetch(`https://cors42.000webhostapp.com/?${encodeURIComponent('https://www.merca
 Or with jQuery
 
 ```js
-$.getJSON('https://cors42.000webhostapp.com/?' + encodeURIComponent('https://www.mercadobitcoin.com.br/api/ticker/'), function(data){
+$.getJSON('https://cors42.000webhostapp.com/?https://www.mercadobitcoin.com.br/api/ticker/', function(data){
     alert(data);
 });
 ```
