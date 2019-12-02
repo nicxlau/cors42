@@ -7,10 +7,10 @@ A free and open source [AnyOrigin](https://web.archive.org/web/20180807170914/ht
 
 ### Examples
 
-To `fetch` data from http://mercadobitcoin.com.br:
+To `fetch` data from https://www.instagram.com/:
 
 ```js
-fetch(`https://cors42.000webhostapp.com/?https://www.mercadobitcoin.com.br/api/ticker/`)
+fetch(`https://cors42.000webhostapp.com/?https://www.instagram.com/web/search/topsearch/?context=blended&query=nicolauns`)
   .then(response => {
     if (response.ok) return response.json()
     throw new Error('Network response was not ok.')
@@ -21,7 +21,7 @@ fetch(`https://cors42.000webhostapp.com/?https://www.mercadobitcoin.com.br/api/t
 Or with jQuery
 
 ```js
-$.getJSON('https://cors42.000webhostapp.com/?https://www.mercadobitcoin.com.br/api/ticker/', function(data){
+$.getJSON('https://cors42.000webhostapp.com/?https://www.instagram.com/web/search/topsearch/?context=blended&query=nicolauns', function(data){
     alert(data);
 });
 ```
