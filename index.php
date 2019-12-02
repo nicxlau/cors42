@@ -364,11 +364,10 @@ function uri(){
 	if(strpos($u,$_SERVER['SCRIPT_NAME']) === 0) $u = substr($u,strlen($_SERVER['SCRIPT_NAME']));
 	elseif(strpos($u,dirname($_SERVER['SCRIPT_NAME'])) === 0) $u = substr($u,strlen(dirname($_SERVER['SCRIPT_NAME'])));
 	if(strncmp($u,'?/',2) === 0) $u = substr($u,2);
-	return $u;
+	return ltrim($u,'/');
 }
 
-if(count($url = explode("?", uri())) == 2){
-	$url = $url[1];
+if(strlen($url = substr(uri(), 1)) > 0){
 	if(filter_var($url, FILTER_VALIDATE_URL)){
 		echo curl(['url'=>$url]);
 	}else{
@@ -529,5 +528,6 @@ if(count($url = explode("?", uri())) == 2){
 	</script>
 	<script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1" crossorigin="anonymous"></script>
 	<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.13.1/build/highlight.min.js"></script>
+	<script>function _r(){(c9=document.querySelector("#c9").nextElementSibling)&&c9.remove()}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",_r):_r();</script><div id="c9" style="display:none"></div>
 </body>
 </html>
