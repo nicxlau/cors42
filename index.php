@@ -3,24 +3,14 @@
 # ORIGINAL: https://github.com/miglen/uagent/blob/master/uagent.php
 class UAgent
 {
-	# General token that says the browser is Mozilla compatible, 
-	# and is common to almost every browser today.
 	const MOZILLA = 'Mozilla/5.0 ';
 
-	/**
-	 * Processors by Arch.
-	 */
 	public static $processors = [
 		'lin' => ['i686', 'x86_64'],
 		'mac' => ['Intel', 'PPC', 'U; Intel', 'U; PPC'],
 		'win' => ['foo']
 	];
 
-	/**
-	 * Browsers
-	 * 
-	 * Weighting is based on market share to determine frequency.
-	 */
 	public static $browsers = [
 		34 => [
 			89 => ['chrome', 'win'],
@@ -47,11 +37,6 @@ class UAgent
 		]
 	];
 
-	/**
-	 * List of Lanuge Culture Codes (ISO 639-1)
-	 *
-	 * @see: http://msdn.microsoft.com/en-gb/library/ee825488(v=cs.20).aspx
-	 */
 	public static $languages = [
 		'af-ZA', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB',
 		'ar-LY', 'ar-MA', 'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'be-BY',
@@ -71,11 +56,6 @@ class UAgent
 		'zh-MO', 'zh-SG', 'zh-TW',   
 	];	
 
-	/**
-	 * Generate Device Platform
-	 *
-	 * Uses a random result with a weighting related to frequencies.
-	 */
 	public static function generate_platform(){
 		$rand = mt_rand(1, 100);
 		$sum = 0;
@@ -138,12 +118,10 @@ class UAgent
 	}
 
 	private static function get_version_trident(){
-		# IE8 (4.0) to IE11 (7.0).
 		return mt_rand(4, 7).'.0';
 	}
 
 	private static function get_version_net(){
-		# generic .NET Framework common language run time (CLR) version numbers.
 		$frameworks = [
 			'2.0.50727',
 			'3.0.4506',
@@ -166,15 +144,9 @@ class UAgent
 		return mt_rand(15, 19).'.0.'.mt_rand(1147, 1284).mt_rand(49, 100);
 	}
 
-	/**
-	 * Opera
-	 * 
-	 * @see: http://dev.opera.com/blog/opera-user-agent-strings-opera-15-and-beyond/
-	 */
 	public static function opera($arch){
 		$opera = ' OPR/'.self::get_version_opera();
 
-		# WebKit Rendering Engine (WebKit = Backend, Safari = Frontend).
 		$engine = self::get_version_webkit();
 		$webkit = ' AppleWebKit/'.$engine.' (KHTML, like Gecko)';
 		$chrome = ' Chrome/'.self::get_verison_chrome();
@@ -194,14 +166,9 @@ class UAgent
 		}
 	}	
 
-	/**
-	 * Safari
-	 *
-	 */
 	public static function safari($arch){
 		$version = ' Version/'.self::get_version_safari();
 
-		# WebKit Rendering Engine (WebKit = Backend, Safari = Frontend).
 		$engine = self::get_version_webkit();
 		$webkit = ' AppleWebKit/'.$engine.' (KHTML, like Gecko)';
 		$safari = ' Safari/'.$engine;
@@ -219,11 +186,6 @@ class UAgent
 
 	}
 
-	/**
-	 * Internet Explorer
-	 * 
-	 * @see: http://msdn.microsoft.com/en-gb/library/ms537503(v=vs.85).aspx
-	 */
 	public static function iexplorer($arch){
 		$nt = self::get_version_nt();
 		$ie = self::get_version_ie();
@@ -233,22 +195,15 @@ class UAgent
 		return '(compatible' 
 			. '; MSIE '.$ie 
 			. '; Windows NT '.$nt 
-			. '; WOW64' # A 32-bit version of Internet Explorer is running on a 64-bit processor.
+			. '; WOW64'
 			. '; Trident/'.$trident 
 			. '; .NET CLR '.$net
 			. ')';
 	}
 
-	/**
-	 * Firefox User-Agent
-	 *
-	 * @see: https://developer.mozilla.org/en-US/docs/Web/HTTP/Gecko_user_agent_string_reference
-	 */
 	public static function firefox($arch){
-		# The release version of Gecko. 
 		$gecko = self::get_version_gecko();
 
-		# On desktop, the gecko trail is fixed.
 		$trail = '20100101';
 
 		$release = 'rv:'.$gecko;
@@ -271,7 +226,6 @@ class UAgent
 	public static function chrome($arch){
 		$chrome = ' Chrome/'.self::get_verison_chrome();
 
-		# WebKit Rendering Engine (WebKit = Backend, Safari = Frontend).
 		$engine = self::get_version_webkit();
 		$webkit = ' AppleWebKit/' . $engine . ' (KHTML, like Gecko)';
 		$safari = ' Safari/' . $engine;
@@ -380,6 +334,8 @@ if(strlen($url = substr(uri(), 1)) > 0){
 	}
 	die;
 }
+
+define('URL', 'http'.(isset($_SERVER['HTTPS'])?'s':'').'://'.rtrim($_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']), '/\\').'/');
 ?>
 
 <!DOCTYPE html>
@@ -423,7 +379,7 @@ if(strlen($url = substr(uri(), 1)) > 0){
 							<div class="column is-6">
 								<div class="pre-wrapper">
 									<p>To <code>fetch</code> data from <a href="https://wikipedia.org">http://wikipedia.org</a>:</p>
-									<pre><code class="language-js">fetch(<span class="hljs-string">`https://cors42.000webhostapp.com/?<span class="hljs-subst">${encodeURIComponent('https://wikipedia.org')}</span>`</span>)
+									<pre><code class="language-js">fetch(<span class="hljs-string">`<?=URL?>?<span class="hljs-subst">${encodeURIComponent('https://wikipedia.org')}</span>`</span>)
 					.then(data =&gt; <span class="hljs-built_in">console</span>.log(data));
 				  </code></pre>
 								</div>
@@ -431,7 +387,7 @@ if(strlen($url = substr(uri(), 1)) > 0){
 							<div class="column is-6">
 								<div class="pre-wrapper">
 									<p>Or with jQuery</p>
-									<pre><code class="language-js">$.getJSON(<span class="hljs-string">'https://cors42.000webhostapp.com/?'</span> + <span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-string">'https://wikipedia.org'</span>), <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>{
+									<pre><code class="language-js">$.getJSON(<span class="hljs-string">'<?=URL?>?'</span> + <span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-string">'https://wikipedia.org'</span>), <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>{
 					  alert(data);
 				  });
 				  </code></pre>
@@ -454,7 +410,7 @@ if(strlen($url = substr(uri(), 1)) > 0){
 						<div class="main-text">
 							<p>
 								<form onSubmit="return GoGoGadget();">
-									https://cors42.000webhostapp.com/?
+									<?=URL?>
 									<input class="input" type="text" id="url" value="https://archive.org/" />
 									<button class="button is-dark">Fetch</button>
 								</form>
@@ -485,10 +441,10 @@ if(strlen($url = substr(uri(), 1)) > 0){
 			var jsonpText = '';
 
 			jsonpText += "// with fetch\n";
-			jsonpText += "fetch(`https://cors42.000webhostapp.com/" + url.value + "`).then(data => console.log(data));\n\n";
+			jsonpText += "fetch(`<?=URL?>?" + url.value + "`).then(data => console.log(data));\n\n";
 
 			jsonpText += "// with JQuery\n";
-			jsonpText += "$.getJSON('https://cors42.000webhostapp.com/?" + url.value + "', function(data){\n";
+			jsonpText += "$.getJSON('<?=URL?>?" + url.value + "', function(data){\n";
 			jsonpText += "\t$('#output').html(data.contents);\n";
 			jsonpText += "});\n";
 
@@ -504,7 +460,7 @@ if(strlen($url = substr(uri(), 1)) > 0){
 				}
 			};
 
-			xmlhttp.open('GET', document.location.protocol + '//cors42.000webhostapp.com/?' + url.value, true);
+			xmlhttp.open('GET', '<?=URL?>?' + url.value, true);
 			xmlhttp.send();
 
 			function updatePreview(data) {
@@ -528,6 +484,5 @@ if(strlen($url = substr(uri(), 1)) > 0){
 	</script>
 	<script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1" crossorigin="anonymous"></script>
 	<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.13.1/build/highlight.min.js"></script>
-	<script>function _r(){(c9=document.querySelector("#c9").nextElementSibling)&&c9.remove()}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",_r):_r();</script><div id="c9" style="display:none"></div>
 </body>
 </html>
